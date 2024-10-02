@@ -4,14 +4,18 @@
   "description": "An experiment with sockets apis",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "author": "Sriram B <sriramsubramanian23@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "parcel": "^2.12.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "socket.io-client": "^4.8.0"
   },
   "devDependencies": {
     "process": "^0.11.10"
