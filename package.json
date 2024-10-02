@@ -1,0 +1,19 @@
+{
+  "name": "coinbase-socket",
+  "version": "1.0.0",
+  "description": "An experiment with sockets apis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sriram B <sriramsubramanian23@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^2.12.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
+  }
+}
