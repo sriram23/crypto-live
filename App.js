@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Socket from './components/socket';
+import { Card, CardBody, CardHeader, Flex, Text } from '@chakra-ui/react';
 
 const App = () => {
     const [coins, setCoins] = useState(null)
@@ -54,20 +55,30 @@ const App = () => {
     }, [coins])
     return(
         <div>
+            <h1>Crypto Currency Live</h1>
             {
                 error? (<p>Error: {error}</p>):coins?.length?(
-                    <div>
+                    <Flex>
                         {/* {coins.slice(0,10).map(coin => <Socket data={coin}/>)} */}
                         {/* <h2>Top Hot Coins</h2>
                         {hotCoins?.map(coin => <Socket data={coin} />)} */}
-                        <h2>Top Gainers</h2>
-                        {topGainers?.map(coin => <Socket data={coin} />)}
-                        <h2>Top Losers</h2>
-                        {topLosers?.map(coin => <Socket data={coin} />)}
-                    </div>
+                        <Card flex={1} m={2}>
+                            <CardHeader>
+                                <Text fontSize={"5xl"}>Top 10 Gainers</Text>
+                            </CardHeader>
+                            <CardBody>
+                                {topGainers?.map(coin => <Socket data={coin} />)}
+                            </CardBody>
+                        </Card>
+                        <Card flex={1} m={2}>
+                            <CardHeader>
+                                <Text fontSize={"5xl"}>Top 10 Losers</Text>
+                            </CardHeader>
+                            <CardBody>{topLosers?.map(coin => <Socket data={coin} />)}</CardBody>
+                        </Card>
+                    </Flex>
                 ) : (<p>Loading ticker data...</p>)
             }
-            
         </div>
     )
 }
