@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Socket from './components/socket';
-import { Card, CardBody, CardHeader, Flex, Text } from '@chakra-ui/react';
+import { Card, CardBody, CardHeader, Box, Text, Grid, GridItem, ChakraProvider } from '@chakra-ui/react';
 
 const App = () => {
     const [coins, setCoins] = useState(null)
@@ -18,7 +18,6 @@ const App = () => {
 
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data)
-            console.log("Coins: ", data)
             setCoins(data)
         }
 
@@ -54,32 +53,47 @@ const App = () => {
           }
     }, [coins])
     return(
-        <div>
-            <h1>Crypto Currency Live</h1>
+        <ChakraProvider>
+        <div color='white'>
+            <Text fontSize="3xl" textAlign="center">Crypto Currency Live</Text>
             {
                 error? (<p>Error: {error}</p>):coins?.length?(
-                    <Flex>
-                        {/* {coins.slice(0,10).map(coin => <Socket data={coin}/>)} */}
-                        {/* <h2>Top Hot Coins</h2>
-                        {hotCoins?.map(coin => <Socket data={coin} />)} */}
-                        <Card flex={1} m={2}>
+                    // <Box display={'flex'} flexDirection={{ base: "column", md:"row" }} >
+                    <Grid templateColumns={{ base: "1fr", lg: "repeat(3, 1fr)"}} gap={4}>
+                        <GridItem>
+                        <Card flex={1} m={2} bg="inherit" color="inherit" margin="inherit">
                             <CardHeader>
-                                <Text fontSize={"5xl"}>Top 10 Gainers</Text>
+                                <Text fontSize={"2xl"} textAlign="center">Top 10 Gainers</Text>
                             </CardHeader>
                             <CardBody>
-                                {topGainers?.map(coin => <Socket data={coin} />)}
+                                {topGainers?.map(coin => <Socket key={coin.s} data={coin} />)}
                             </CardBody>
                         </Card>
-                        <Card flex={1} m={2}>
+                        </GridItem>
+                        <GridItem>
+                        <Card flex={1} m={2} bg="inherit" color="inherit" margin="inherit">
                             <CardHeader>
-                                <Text fontSize={"5xl"}>Top 10 Losers</Text>
+                                <Text fontSize={"2xl"} textAlign="center">Top 10 Losers</Text>
                             </CardHeader>
-                            <CardBody>{topLosers?.map(coin => <Socket data={coin} />)}</CardBody>
+                            <CardBody>{topLosers?.map(coin => <Socket key={coin.s} data={coin} />)}</CardBody>
                         </Card>
-                    </Flex>
-                ) : (<p>Loading ticker data...</p>)
+                        </GridItem>
+                        <GridItem>
+                        <Card flex={1} m={2} bg="inherit" color="inherit" margin="inherit">
+                            <CardHeader>
+                                <Text fontSize={"2xl"} textAlign="center">Top 10 Coins by volume</Text>
+                            </CardHeader>
+                            <CardBody>
+                                {hotCoins?.map(coin => <Socket data={coin} />)}
+                            </CardBody>
+                        </Card>
+                        </GridItem>
+                        </Grid>
+                    // </Box>
+                ) : (<Text textAlign="center">Loading ticker data...</Text>)
             }
         </div>
+        </ChakraProvider>
     )
 }
 const root = ReactDOM.createRoot(document.getElementById('root'));
