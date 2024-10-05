@@ -85,7 +85,6 @@ const Home = () => {
                         </Card>
                         </GridItem>
                         </Grid>
-                    // </Box>
                 ) : (<Flex alignItems="center" justifyContent="center"><Spinner m={2}/><Text textAlign="center" fontSize="2xl">Loading data...</Text></Flex>)
             }
         </div>

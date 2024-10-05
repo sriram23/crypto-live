@@ -1,14 +1,17 @@
 import React from "react";
 import {
   Card,
-  CardHeader,
   CardBody,
-  CardFooter,
   Container,
   Flex,
   Text,
   Box,
   Image,
+  Stat,
+  StatNumber,
+  StatArrow,
+  StatGroup,
+  StatHelpText
 } from "@chakra-ui/react";
 
 const Socket = ({ data }) => {
@@ -22,7 +25,7 @@ const Socket = ({ data }) => {
       <Card bg="#202020" m={2} p={2} borderRadius="10px">
         <CardBody>
           <Flex justifyContent="space-between" alignItems="center">
-            <Box m={1} display={"flex"} flexDirection="row" alignItems="center">
+            <Box flex={1} m={1} display={"flex"} flexDirection="row" alignItems="center">
               <Image
                 mr={2}
                 bg='white'
@@ -34,9 +37,13 @@ const Socket = ({ data }) => {
               />
               <Text color="white" fontWeight="bold" ml={2}>{ticker}</Text>
             </Box>
-            <Text color="white">${Number(data.c) > 0.01 ? Number(data.c).toFixed(2) : Number(data.c)}</Text>
-            {/* <Text>${Number(data.v) > 0.01 ? Number(data.v).toFixed(2) : Number(data.v)}</Text> */}
-            <Text color={data.P >= 0 ? "green" : "red"}>{Number(data.P).toFixed(2)}%</Text>
+            <Stat color="white" textAlign="right" flex={1}>
+              <StatNumber>${Number(data.c) > 0.01 ? Number(data.c).toFixed(2) : Number(data.c)}</StatNumber>
+              <StatHelpText>
+                <StatArrow type={data.p >= 0 ? "increase" : "decrease"}></StatArrow>
+                {Number(data.P).toFixed(2)}%
+              </StatHelpText>
+            </Stat>
           </Flex>
         </CardBody>
       </Card>

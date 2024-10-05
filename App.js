@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Socket from './components/socket';
-import { Card, CardBody, CardHeader, Box, Text, Grid, GridItem, ChakraProvider } from '@chakra-ui/react';
+import { Box, Text, ChakraProvider } from '@chakra-ui/react';
 import Home from './page/home';
 
 const App = () => {
