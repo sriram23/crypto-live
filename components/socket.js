@@ -24,10 +24,10 @@ const Socket = ({ data }) => {
     <Container color={"white"} bg="inherit">
       <Card bg="#202020" m={2} p={2} borderRadius="10px">
         <CardBody>
-          <Flex justifyContent="space-between" alignItems="center">
-            <Box flex={1} m={1} display={"flex"} flexDirection="row" alignItems="center">
+          <Flex direction={{base:"column", md:"row"}} justifyContent="space-between" alignItems="center">
+            <Box flex={1} m={1} display={"flex"} flexDirection={{base:'column', md:"row"}} alignItems="center">
               <Image
-                mr={2}
+                mr={{base:0, md:2}}
                 bg='white'
                 border={"2px solid white"}
                 borderRadius="100%"
@@ -35,7 +35,7 @@ const Socket = ({ data }) => {
                 alt={ticker + "-logo"}
                 src={`https://sriram-23.vercel.app/crypto?file=${ticker}`}
               />
-              <Text color="white" fontWeight="bold" ml={2}>{ticker}</Text>
+              <Text color="white" fontWeight="bold" ml={{base:0, md:2}} mt={{base:2, md:0}}>{ticker}</Text>
             </Box>
             <Stat color="white" textAlign="right" flex={1}>
               <StatNumber>${Number(data.c) > 0.01 ? Number(data.c).toFixed(2) : Number(data.c)}</StatNumber>

@@ -32,11 +32,11 @@ const App = () => {
         zIndex={999}
         bgGradient="radial-gradient(circle at center, #121212, #0d0d0d)"
       >
-        <Text fontSize="3xl" textAlign="center" as="h1">
+        <Text fontSize={{base: "md", md:"3xl"}} fontStyle="bold" textAlign="center" as="h1">
           🪙 Crypto Currency Live 🔴
         </Text>
         {/* <IconButton icon={<HamburgerIcon/>} /> */}
-        <Button bg="#202020" color="white" position="absolute" right={10} top={5} onClick={() => setIsOpen(true)}><Icon as={AiOutlineMenu}/></Button>
+        <Button bg="#202020" color="white" position="absolute" right={{base: 5, md:10}} top={5} onClick={() => setIsOpen(true)}><Icon as={AiOutlineMenu}/></Button>
       </Box>
       <Home />
 
