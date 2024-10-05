@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import {
   Box,
@@ -12,18 +12,21 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Button,
-  Icon
+  Icon,
+  Container,
 } from "@chakra-ui/react";
 import { AiOutlineMenu } from "react-icons/ai";
+import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import Home from "./page/home";
+import Search from "./page/search";
 
 const App = () => {
-    const [isOpen, setIsOpen] = useState(false)
-    const onClose = () => {
-        setIsOpen(false);
-    }
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => {
+    setIsOpen(false);
+  };
   return (
-    <ChakraProvider>
+    <Box w="100%">
       <Box
         border="1px solid #202020"
         p={6}
@@ -32,41 +35,68 @@ const App = () => {
         zIndex={999}
         bgGradient="radial-gradient(circle at center, #121212, #0d0d0d)"
       >
-        <Text fontSize={{base: "md", md:"3xl"}} fontStyle="bold" textAlign="center" as="h1">
+        <Text
+          fontSize={{ base: "md", md: "3xl" }}
+          fontStyle="bold"
+          textAlign="center"
+          as="h1"
+        >
           🪙 Crypto Currency Live 🔴
         </Text>
-        {/* <IconButton icon={<HamburgerIcon/>} /> */}
-        <Button bg="#202020" color="white" position="absolute" right={{base: 5, md:10}} top={5} onClick={() => setIsOpen(true)}><Icon as={AiOutlineMenu}/></Button>
+        <Button
+          bg="#202020"
+          color="white"
+          position="absolute"
+          right={{ base: 5, md: 10 }}
+          top={5}
+          onClick={() => setIsOpen(true)}
+        >
+          <Icon as={AiOutlineMenu} />
+        </Button>
       </Box>
-      <Home />
+      {/* <Home /> */}
+      <Outlet />
 
       {/* Drawer */}
-      <Drawer
-        isOpen={isOpen}
-        placement='right'
-        onClose={onClose}
-        // finalFocusRef={btnRef}
-      >
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent bgGradient="radial-gradient(circle at center, #121212, #0d0d0d)">
           <DrawerCloseButton />
           <DrawerHeader>Create your account</DrawerHeader>
 
-          <DrawerBody>
-            {/* <Input placeholder='Type here...' /> */}
-            Hello World!
-          </DrawerBody>
+          <DrawerBody>Hello World!</DrawerBody>
 
           <DrawerFooter>
-            <Button variant='outline' mr={3} onClick={onClose}>
+            <Button variant="outline" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme='blue'>Save</Button>
+            <Button colorScheme="blue">Save</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </ChakraProvider>
+    </Box>
   );
 };
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
+      },
+    ],
+  },
+]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+root.render(
+  <ChakraProvider>
+    <RouterProvider router={appRouter}></RouterProvider>
+  </ChakraProvider>
+);
