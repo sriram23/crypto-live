@@ -16,7 +16,7 @@ import {
   Container,
 } from "@chakra-ui/react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Outlet, Link } from "react-router-dom";
 import Home from "./page/home";
 import Search from "./page/search";
 
@@ -25,6 +25,18 @@ const App = () => {
   const onClose = () => {
     setIsOpen(false);
   };
+
+  const buttonObj = [{
+    id: 1,
+    text: "Home",
+    navigate: "/"
+  },
+  {
+    id: 2,
+    text: "Search",
+    navigate: "/search"
+  }
+]
   return (
     <Box w="100%">
       <Box
@@ -62,16 +74,22 @@ const App = () => {
         <DrawerOverlay />
         <DrawerContent bgGradient="radial-gradient(circle at center, #121212, #0d0d0d)">
           <DrawerCloseButton />
-          <DrawerHeader>Create your account</DrawerHeader>
+          <DrawerHeader>Crypto Currency Live</DrawerHeader>
 
-          <DrawerBody>Hello World!</DrawerBody>
+          <DrawerBody>
+            <Box display="flex" flexDirection="column">
+                {buttonObj.map(obj => <Link className="link" key={obj.id} to={obj.navigate}>{obj.text}</Link>)}
+                {/* <Button>Home</Button>
+                <Button>Search</Button> */}
+            </Box>
+          </DrawerBody>
 
-          <DrawerFooter>
+          {/* <DrawerFooter>
             <Button variant="outline" mr={3} onClick={onClose}>
               Cancel
             </Button>
             <Button colorScheme="blue">Save</Button>
-          </DrawerFooter>
+          </DrawerFooter> */}
         </DrawerContent>
       </Drawer>
     </Box>

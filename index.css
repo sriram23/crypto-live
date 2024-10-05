@@ -2,3 +2,14 @@ body {
     background: radial-gradient(circle at center, #121212, #0d0d0d) !important;
     color: #fff !important; /* For text color */
   }
+
+.link {
+  margin: 0.25rem;
+  padding: 1rem;
+  background: #202020;
+  border-radius: 10px;
+}
+
+.link:hover {
+  background: #424242;
+}
