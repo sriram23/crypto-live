@@ -2,97 +2,15 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Socket from './components/socket';
 import { Card, CardBody, CardHeader, Box, Text, Grid, GridItem, ChakraProvider } from '@chakra-ui/react';
+import Home from './page/home';
 
 const App = () => {
-    const [coins, setCoins] = useState(null)
-    const [topGainers, setTopGainers] = useState(null)
-    const [topLosers, setTopLosers] = useState(null)
-    const [hotCoins, setHotCoins] = useState(null)
-    const [error, setError] = useState(null)
-    useEffect(() => {
-        const socket = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr')
-
-        socket.onopen = () => {
-            console.log('Coins socket connected');
-        }
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data)
-            setCoins(data)
-        }
-
-        socket.onerror = (err) => {
-            console.error("Coins socket error: ", err)
-            setError(err)
-        }
-
-        socket.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
-
-        return () => {
-            socket.close();
-        };
-    }, [])
-
-    useEffect(() => {
-        if (coins?.length) {
-            // Sort by percentage change
-            const sortedByChange = [...coins].sort((a, b) => parseFloat(b.P) - parseFloat(a.P)).filter(item => item.s.endsWith('USDT'));
-      
-            // Top gainers (positive percentage change)
-            setTopGainers(sortedByChange.filter(t => parseFloat(t.P) > 0).slice(0, 10));
-      
-            // Top losers (negative percentage change)
-            setTopLosers(sortedByChange.filter(t => parseFloat(t.P) < 0).slice(-10).reverse());
-            
-            // Filtering out the hot coins and sorting them by percentage change
-            const hot = ["BNBUSDT", "BTCUSDT", "ETHUSDT", "NEIROUSDT", "PEPEUSDT", "SOLUSDT", "SUIUSDT", "SHIBUSDT", "HMSTRUSDT", "XRPUSDT"]
-            const filterHotCoins = [...coins].filter(item => hot.includes(item.s)).sort((a, b) => parseFloat(b.P) - parseFloat(a.P))
-            setHotCoins(filterHotCoins);
-          }
-    }, [coins])
     return(
         <ChakraProvider>
-        <div color='white'>
-            <Text fontSize="3xl" textAlign="center">🪙 Crypto Currency Live 🔴</Text>
-            {
-                error? (<p>Error: {error}</p>):coins?.length?(
-                    // <Box display={'flex'} flexDirection={{ base: "column", md:"row" }} >
-                    <Grid templateColumns={{ base: "1fr", xl: "repeat(3, 1fr)"}} gap={2}>
-                        <GridItem>
-                        <Card m={2} bg="inherit" color="inherit" margin="inherit">
-                            <CardHeader>
-                                <Text fontSize={"2xl"} textAlign="center">Hot Coins 🔥</Text>
-                            </CardHeader>
-                            <CardBody>
-                                {hotCoins?.map(coin => <Socket data={coin} />)}
-                            </CardBody>
-                        </Card>
-                        </GridItem>
-                        <GridItem>
-                        <Card m={2} bg="inherit" color="inherit" margin="inherit">
-                            <CardHeader>
-                                <Text fontSize={"2xl"} textAlign="center">Top 10 Gainers 🚀</Text>
-                            </CardHeader>
-                            <CardBody>
-                                {topGainers?.map(coin => <Socket key={coin.s} data={coin} />)}
-                            </CardBody>
-                        </Card>
-                        </GridItem>
-                        <GridItem>
-                        <Card flex={1} m={2} bg="inherit" color="inherit" margin="inherit">
-                            <CardHeader>
-                                <Text fontSize={"2xl"} textAlign="center">Top 10 Losers 👎</Text>
-                            </CardHeader>
-                            <CardBody>{topLosers?.map(coin => <Socket key={coin.s} data={coin} />)}</CardBody>
-                        </Card>
-                        </GridItem>
-                        </Grid>
-                    // </Box>
-                ) : (<Text textAlign="center">Loading ticker data...</Text>)
-            }
-        </div>
+            <Box border="1px solid #202020" p={6} position="sticky" top={0} zIndex={999} bgGradient="radial-gradient(circle at center, #121212, #0d0d0d)">
+                <Text fontSize="3xl" textAlign="center" as="h1">🪙 Crypto Currency Live 🔴</Text>
+            </Box>
+            <Home/>
         </ChakraProvider>
     )
 }
