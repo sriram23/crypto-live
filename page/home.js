@@ -2,37 +2,14 @@ import {useState, useEffect} from 'react'
 import { Card, CardBody, CardHeader, Box, Text, Grid, GridItem, Spinner, Flex } from '@chakra-ui/react';
 
 import Socket from '../components/socket';
+import { useOutletContext } from 'react-router-dom';
 const Home = () => {
-    const [coins, setCoins] = useState(null)
+    const {coins, error } = useOutletContext()
     const [topGainers, setTopGainers] = useState(null)
     const [topLosers, setTopLosers] = useState(null)
     const [hotCoins, setHotCoins] = useState(null)
-    const [error, setError] = useState(null)
-    useEffect(() => {
-        const socket = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr')
-
-        socket.onopen = () => {
-            console.log('Coins socket connected');
-        }
-
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data)
-            setCoins(data)
-        }
-
-        socket.onerror = (err) => {
-            console.error("Coins socket error: ", err)
-            setError(err)
-        }
-
-        socket.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
-
-        return () => {
-            socket.close();
-        };
-    }, [])
+    
+    
 
     useEffect(() => {
         if (coins?.length) {

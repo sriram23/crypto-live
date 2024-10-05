@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import {
   Box,
@@ -22,9 +22,38 @@ import Search from "./page/search";
 
 const App = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [coins, setCoins] = useState(null)
+  const [error, setError] = useState(null)
   const onClose = () => {
     setIsOpen(false);
   };
+
+  // Calling the websocket connection
+  useEffect(() => {
+    const socket = new WebSocket('wss://stream.binance.com:9443/ws/!ticker@arr')
+
+    socket.onopen = () => {
+        console.log('Coins socket connected');
+    }
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data)
+        setCoins(data)
+    }
+
+    socket.onerror = (err) => {
+        console.error("Coins socket error: ", err)
+        setError(err)
+    }
+
+    socket.onclose = () => {
+        console.log('WebSocket connection closed');
+    };
+
+    return () => {
+        socket.close();
+    };
+}, [])
 
   const buttonObj = [{
     id: 1,
@@ -67,7 +96,7 @@ const App = () => {
         </Button>
       </Box>
       {/* <Home /> */}
-      <Outlet />
+      <Outlet context={{coins, error}}/>
 
       {/* Drawer */}
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
