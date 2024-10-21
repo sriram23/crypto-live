@@ -17,12 +17,18 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RouterProvider, createBrowserRouter, Outlet, Link } from "react-router-dom";
+
+import { store } from "./store";
+import { Provider } from "react-redux";
 import Home from "./page/home";
 import Search from "./page/search";
+import { set } from "./cryptoSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const App = () => {
+  const coins = useSelector((state) => state.crypto.value)
+  const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false);
-  const [coins, setCoins] = useState(null)
   const [error, setError] = useState(null)
   const onClose = () => {
     setIsOpen(false);
@@ -38,7 +44,7 @@ const App = () => {
 
     socket.onmessage = (event) => {
         const data = JSON.parse(event.data)
-        setCoins(data)
+        dispatch(set(data))
     }
 
     socket.onerror = (err) => {
@@ -143,7 +149,9 @@ const appRouter = createBrowserRouter([
 ]);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <Provider store={store}>
   <ChakraProvider>
     <RouterProvider router={appRouter}></RouterProvider>
   </ChakraProvider>
+  </Provider>
 );

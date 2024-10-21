@@ -10,7 +10,6 @@ const Home = () => {
     const [hotCoins, setHotCoins] = useState(null)
     
     
-
     useEffect(() => {
         if (coins?.length) {
             // Sort by percentage change
